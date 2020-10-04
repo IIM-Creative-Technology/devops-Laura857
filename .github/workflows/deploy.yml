@@ -1,0 +1,15 @@
+##Créer une CI/CD quand on push sur master = prod
+
+name: Deploy website to Heroku
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Init projet
+        uses: actions/checkout@v2
+      - name: PHP Linter
+        uses: michaelw90/PHP-Lint@master
