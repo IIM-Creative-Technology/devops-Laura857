@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/main.css" media="screen" type="text/css"/>
+	</head>
+	<div>
+		<form class="formulaire" action="{{ path('mdpOublie')}}" method="post">
+		 <h1>Mot de passe oublié</h1>
+		 <div class="container">
+			 {% for message in app.flashes('warning') %}
+				 <div class="alert alert-danger">
+						 {{ message }}
+				 </div>
+			 {% endfor %}
+		 </div>
+		 <p>Entrer votre adresse mail. Vous allez recevoir un email avec un mot de passe provisoire.</p>
+			<div class="form_group">
+	 			 {{ form_start(form) }}
+	 				 <div class="row justify-content-md-center">
+	 						 {{ form(form.email, {'attr':{'placeholder': 'Votre email', 'autofocus': 'true', type:'email'}}) }}
+	 					</div>
+	 			 {{ form_end(form) }}
+					 <br>
+					 <button type="submit" class="btn btn-dark">Valider</button>
+				</div>
+		 </form>
+</div>
+{% endblock %}

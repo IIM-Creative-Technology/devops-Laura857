@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<!-- page d'accueil-->
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/main.css" media="screen" type="text/css"/>
+	</head>
+	<!-- section de description du site -->
+	<div class="header" id="description">
+		<div class="container">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+						{{ message }}
+				</div>
+			{% endfor %}
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 style="font-family:AboutLove; font-size:50px">Créez des wishlists gratuitement et à l'infini !</h3>
+					<p >
+						Des anniversaires ? des mariages ? Un cadeau pour votre collègue ? plus la peine de se prendre la tête</p>
+					<p>Confectionnez des wishlists - partagez avec vos amis - trouvez des idées de cadeaux
+					</p>
+					<img style=" width : 600px; border :solid" src="/aide.png" alt="...">
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--liste préparamétrée-->
+<div id="Competences" class="text-center">
+	<div class="container">
+		<div class="section-title center">
+			<h2>Quelques suggestions de cadeaux</h2>
+			<div class="line">
+				<hr>
+			</div>
+		</div>
+		<div class="space"></div>
+		<div class="row">
+		{% for theme in themes %}
+			<div class="col-md-3 col-sm-6 service">
+				<a style="color: #000000" href="{{path('myTheme',{id: theme.id})}}"><i class="{{theme.urlimg}}"></i></a>
+				<h4>
+					<a href="{{path('myTheme',{id: theme.id})}}" class="btn btn-dark">{{theme.name}}</a>
+				</h4>
+				{% if is_granted('ROLE_ADMIN') %}
+					<p><a href="{{path('modifierTheme',{id: theme.id})}}"><i class="fas fa-marker fa-1x" style="color:#000000;"></i></a>
+						&nbsp
+					<a onclick="return confirm('Êtes-vous sûre de vouloir supprimer le thème {{theme.name}}?')" href="{{path('supprimerTheme',{id: theme.id})}}"><i class= "fas fa-trash fa-1x" style="color:#000000;"></i></a></p>
+				{% endif %}
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+	{% if is_granted('ROLE_ADMIN') %}
+	<div id="admin" class="text-center">
+			<a href="{{path('ajoutTheme')}}" style="color: #000000;"<i class="fa fa-plus-circle fa-3x"></i></a>
+			<h4>
+				<a href="{{path('ajoutTheme')}}" class="btn btn-dark">Ajouter un thème</a>
+			</h4>
+			<a href="{{path('api_post_store')}}"><button class="btn btn-dark">Mettre objets API dans BDD</button></a>
+	</div>
+
+
+	{% endif %}
+{% endblock %}

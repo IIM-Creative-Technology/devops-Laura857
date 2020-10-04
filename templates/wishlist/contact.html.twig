@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{%form_theme our_form 'bootstrap_4_layout.html.twig'%}
+{% block body %}
+
+	<!-- formulaire de contact
+	    contact par mail directement depuis une boite mail
+	    contact par le formulaire interne du site
+	    -->
+
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/main.css" media="screen" type="text/css"/>
+	</head>
+	<body>
+		<div id="container">
+			<div class="formulaire">
+				<h1 style="display:inline;">Nous contacter</h1>
+			<div class="form-group" style="margin-top:20px">
+			{{ form_start(our_form) }}
+				{{ form_row(our_form.name, {'attr':{'placeholder': 'nom', 'autofocus': 'true'}}) }}
+				{{ form_row(our_form.email, {'attr':{'placeholder': 'email'}}) }}
+				{{ form_row(our_form.texte, {'attr':{'placeholder': 'message'}}) }}
+				<button type="submit" class="btn btn-dark btn-lg btn-block">
+					Valider
+				</button>
+			{{ form_end(our_form) }}
+			
+			<p style="text-align:center; margin-top:10px">Vous pouvez également nous contacter directement par mail en cliquant
+				<a href="mailto:wishlist.wewish@gmail.com">ici</a>
+			</p>
+		</div>
+		</div>
+	</body>
+{% endblock %}

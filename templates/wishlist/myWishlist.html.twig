@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+  {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('main.css') }}">
+  {% endblock %}
+  {% block body %}
+   	<body>
+   	<h1 style="text-align: center;">Mes Wishlists</h1>
+    <div class="container">
+      {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+    {% if wishlists is empty %}
+      <div class = "contenu">
+        <p>Vous n'avez pas encore crée de wishlist !!! Cliquez sur le bouton ci-dessous pour créer
+          votre première wishlist.</p>
+        <a href="{{path('formWishlist')}}" class="btn btn-dark">Créer ma première wishlist</a>
+      </div>
+      {% else %}
+      <div class="card-deck">
+        {% set i = 0 %}
+        {% for wishlist in wishlists %}
+       		<div class="col-4">
+       			<div class="card" style='margin-top:30px'>
+              <div class="card-img" style="position:absolute; margin:10px;">
+                <a onclick="getId"  id="js-idA" data-toggle="modal" data-target="#message{{wishlist.id}}">
+                  <i class="fas fa-camera fa-2x" style="color:#000000;"></i>
+                </a>
+              </div>
+              <div class="wishlistLien">
+               
+                <a href="{{path('myArticles',{id: wishlist.id})}}">
+                  {% if wishlist.imageFond == NULL %}
+                    <img class="card-img-top" src="/model_wshl3.png" alt="{{ wishlist.nom }}"/>
+                  {% else %}
+                     <img class="card-img-top" src="{{ vich_uploader_asset(wishlist, 'imageFile') }}" alt="{{ wishlist.nom }}"/>
+                  {% endif %}
+                </a>
+                 <div class="card-body">
+                  <a href="{{path('myArticles',{id: wishlist.id})}}">
+                    {% if budgets[i] > wishlist.budget %}
+                      <p style='color:red'>Le budget total est de {{budgets[i]}}€. Vous avez dépassé votre budget fixé !</p>
+                    {% endif %}
+                    {% if wishlist.dateexpiration < date() %}
+                      <p style='color:red'>La date d'expiration est dépassée !</p>
+                    {% endif %}
+           	  			<h3 class="card-title">Nom de la wishlist : {{wishlist.nom}}</h3>
+           	  			<h5 class="card-text">Destinataire : {{wishlist.destinataire}}</h5>
+                    <h6 class="card-text">Budget fixé : {{wishlist.budget}}€</h6>
+                    {% if wishlist.description %}
+                      <p class="card-text"> Description : {{wishlist.description| raw}} </p>
+                    {% else %}
+                     <p><br></p>
+                    {% endif %}
+                  <a>
+                  </div>
+                 </div>
+                  <div class="card-footer" id="trash">
+                    <div class="sticky-top">
+                      <div class="row">
+                        <div class="col-sm">
+                          <a href="{{path('formArticle',{idW: wishlist.id})}}" class="btn btn-dark">Ajouter un article</a>
+                        </div>
+                        <div class="col-sm">
+                          <a href="{{path('deletWshl',{id: wishlist.id})}}" onclick="return confirm('Êtes vous sûre de vouloir supprimer la wishlist \'{{wishlist.nom}}\' ?');">
+                            <i class= "fa fa-trash fa-2x" style="color:#000000;"></i>
+                          </a>
+                        </div>
+                        <div class="col-sm">
+                          <a href="{{path('formWishlist_modif',{id: wishlist.id})}}" ><i class="fas fa-marker fa-2x" style="color:#000000;"></i></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              {% set i = i+1 %}
+              <div id="message{{wishlist.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header card-header-title">
+                      <h4 class="modal-title card-element-title">Séléctionnez une nouvelle image pour votre wishlist {{wishlist.nom}}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="card-content clearfix">
+                        {{ render(controller('App\\Controller\\WishlistController::imageChoice',{'id':wishlist.id}))}}
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          {% endfor %}
+      </div>
+    {% endif %}
+  {% endblock %}

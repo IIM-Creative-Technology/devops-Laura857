@@ -1,0 +1,16 @@
+<script src="https://kit.fontawesome.com/ebc72dbf59.js" crossorigin="anonymous"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+{% if wishlists is empty %}
+  <div class = "contenu">
+    <p>Vous n'avez pas encore crée de wishlist !!! Cliquez sur le bouton ci-dessous pour créer
+      votre première wishlist et y ajoutere l'article choisi.</p>
+    <a href="{{path('formWishlist',{a:idA})}}" class="btn btn-dark">Créer ma première wishlist</a>
+  </div>
+{% else %}
+  {% for wishlist in wishlists %}
+    <a class="list-group-item list-group-item" id="list-home-list"  href="{{path('addArticles',{id: wishlist.id, idA:idA})}}" aria-controls="home">{{wishlist.nom}}</a>
+  {%endfor%}
+{%endif%}

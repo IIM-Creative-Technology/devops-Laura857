@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{%form_theme formWishlist 'bootstrap_4_layout.html.twig'%}
+{% block body %}
+
+<div class = "container">
+  <div class="offset-md-2">
+    <h1>Créer une wishlist avec pour thème {{theme.name}} :</h1>
+    <br>
+  </div>
+  <div class = "form_horizontal">
+    {{ form_start(formWishlist) }}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.nom, {'label': 'Nom *', 'attr':{'placeholder': 'nom de la wishlist'}}) }}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.destinataire, {'label': 'Destinataire', 'attr':{'placeholder': 'destinataire de la wishlist'}}) }}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.budget, {'label': 'Budget *', 'attr':{'placeholder': 'budget'}}) }}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.dateexpiration,{'label': 'Expire le: *'} )}}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+            {{ form_row(formWishlist.description, {'label': 'Description: *', 'attr':{'placeholder': 'description'}}) }}
+        </div>
+      </div>
+      <div class="col-md-12 offset-md-8">
+        <br>
+        <button type="submit" class="btn btn-dark">
+
+            Créer la wishlist
+
+        </button>
+      </div>
+      {{form_end(formWishlist)}}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('main.css') }}">
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+
+
+{% block body %}
+
+<head>
+	<meta property="og:url" content="https://www.your-domain.com/your-page.html"/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:title" content="Your Website Title"/>
+	<meta property="og:description" content="Your description"/>
+	<meta property="og:image" content="https://www.your-domain.com/path/image.jpg"/>
+</head>
+	<body style="background-image: url('/images/{{theme.imageFond}}'); background-attachment:fixed">
+			<div class="container">
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+							{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.flashes('alert') %}
+		      <div class="alert alert-danger">
+		          {{ message }}
+		      </div>
+		    {% endfor %}
+			</div>
+		<div class="theme-container">
+			<h1 style="text-align: center; padding:30px"> {{wishlist.nom}} </h1>
+			<div class="grid-container">
+			{% for article in articles %}
+				<div style=" display: inline-block;
+					width: 100%;
+			 		border: solid 2px black;
+					box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+					border-radius: 5px;">
+						<a href={{article.url}} target="_blank" >
+							<i class="fas fa-eye fa-1x" style="color:#000000; float: right; margin:10px"></i>
+						</a>
+						<h3>{{article.nom}}</h3>
+
+						<a style="text-decoration:none; color:black" href="{{path('article',{id: article.id})}}" >
+							{% if (article.image starts with 'http') %}
+								<img class='grid-item' src="{{article.image}}" alt="{{ article.nom }}"/>
+							{% elseif article.image == NULL %}
+								<img class='grid-item' src="/images/article.png" alt="{{ article.nom }}"/>
+							{% else %}
+								<img class='grid-item' src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.nom }}"/>
+							{% endif %}
+							<p>{{article.description | raw}}</p>
+							{% if article.prix != null %}
+								<p>{{article.prix }} €</p>
+							{% endif %}
+						</a>
+						<div style="text-align: center; margin-left:40px">
+					{% for i in range(0, 4) %}
+						{% if i < article.rating %}
+							<i class="fa fa-star" style="color:#fff000; float: center;"></i>
+						{% else%}
+							<i class="fa fa-star" style="color:#000000; float: center;"></i>
+							{% endif%}
+					{% endfor%}
+</div>
+
+						{% if app.user is same as (userWishlist) %}
+							<p>
+								<a href="{{path('deleteArticle',{id: article.id})}}" onclick="return confirm('Êtes vous sûre de vouloir supprimer l\'article {{article.nom}} ?');"><i class= "fa fa-trash fa-1x" style="color:#000000;"></i></a>
+								&nbsp
+								<a href="{{path('formArticle_modif',{id: article.id})}}" ><i class="fas fa-marker fa-1x" 	style="color:#000000;"></i></a>
+							</p>
+						{% endif %}
+					</div>
+			 {% endfor %}
+		 </div>
+	 </div>
+		{% if app.user is same as (userWishlist) %}
+			<div class="text-center">
+				<h4 style="margin:2px">
+					<a href="{{path('mywishlist')}}" class="btn btn-dark">Mes wishlists</a>
+					<a href="{{path('formArticle',{idW:wishlist.id})}}" class="btn btn-dark">Ajouter un article</a>
+					<a onclick="share()" href="#" class="btn btn-dark">Partager cette wishlist</a>
+					<p id="autre"></p>
+				</h4>
+			</div>
+
+		<!-- partage sur les reseaux -->
+		<div class="text-center"">
+			<div id="fb-root"></div>
+				<div class="fb-share-button" data-layout="button_count"></div>
+				<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+		</div>
+	{% endif %}
+
+
+
+	{% if app.user %}
+
+	<h1 style="text-align: center;">Ces articles pourraient vous intéresser</h1>
+<div style ="padding-top:25px"  class="card-deck">
+<div class="scrolling-wrapper-flexbox">
+			{% for suggestion in suggestions %}
+			<div class="row">
+			 <div  class="col-3 ">
+				<div style="width: 300px;" class="card">
+					<h3 class="card-title">{{suggestion.nom}}</h3>
+					<a target"_blank" href={{suggestion.url}}>
+						{% if (suggestion.image starts with 'https://' or suggestion.image starts with 'http://') %}
+							<img class="card-img-top" src="{{suggestion.image}}" alt="{{ suggestion.nom }}"/>
+						{% else %}
+							<img class="card-img-top" src="{{ vich_uploader_asset(suggestion, 'imageFile') }}" alt="{{ suggestion.nom }}"/>
+						{% endif %}
+					</a>
+
+						{% if suggestion.prix != null %}
+							<p>{{suggestion.prix }} €</p>
+						<button onclick="getId" class="btn btn-primary" id="js-idA" data-toggle="modal" data-target="#message{{suggestion.id}}">  Ajouter </button>
+
+						{% endif %}
+						</div>
+						<div id="message{{suggestion.id}}" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<p style ="margin: 20px">Séléctionnez la wishlist où vous souhaitez ajouter l'article {{suggestion.nom}} :</p>
+									<div class="modal-body">
+										{{ render(controller('App\\Controller\\SearchBarController::wishlistsChoices',{'id':suggestion.id}))}}
+									</div>
+									<div class="modal-footer">
+                      <a href="{{path('formWishlist',{'a':suggestion.id})}}" class="btn btn-dark">Créer une autre wishlist</a>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+								</div>
+								</div>
+							</div>
+							</div>
+</div>
+			{% endfor %}
+
+		{% endif %}
+	</div>
+	</div>
+	</body>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	<script>
+		(function (d, s, id) {
+			var js,
+			fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id))
+			return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		function share() {
+			document.getElementById("autre").innerHTML = "copier le lien ci-dessous<br>" + window.location.href;
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{%form_theme formWishlist 'bootstrap_4_layout.html.twig'%}
+{% block body %}
+
+<div class = "container">
+  <div class="offset-md-2">
+    <h1>{%if modifmode %}
+          Modifier une wishlist :
+        {%else%}
+          Créer une wishlist :
+        {%endif%}
+    </h1>
+    <br>
+  </div>
+
+  <div class = "form_horizontal">
+    {{ form_start(formWishlist) }}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.wishlist.nom, {'label': 'Nom *', 'attr':{'placeholder': 'nom de la wishlist', 'autofocus': 'true'}}) }}
+        </div>
+      </div>
+      {% if error %}
+      <div class="row justify-content-md-center">
+          <div class="col-sm-6 control-label" >
+            <small id="emailHelp"   style="color:red;" > ! Rentrer un thème</small>
+            {{ form_row(formWishlist.theme, {'label': ' ', 'attr':{  'class': 'form-control is-invalid','placeholder': 'thème de la wishlist'}}) }}
+          </div>
+        </div>
+      {%else%}
+        <div class="row justify-content-md-center">
+          <div class = "col-sm-6 control-label">
+            {{ form_row(formWishlist.theme, {'id':'themeP','label': ' ', 'attr':{'placeholder': 'theme de la wishlist'}}) }}
+          </div>
+        </div>
+      {% endif %}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.name, {'label': ' ', 'attr':{'placeholder': 'theme de la wishlist'}}) }}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.wishlist.destinataire, {'label': 'Destinataire', 'attr':{'placeholder': 'destinataire de la wishlist'}}) }}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.wishlist.budget, {'label': 'Budget *', 'attr':{'placeholder': 'budget'}}) }}
+        </div>
+      </div>
+      {% if errorDate %}
+      <div class="row justify-content-md-center">
+        <div class="col-sm-6 control-label"  >
+            <small id="emailHelp"   style="color:red;" > ! Date dépassée</small>
+            {{ form_row(formWishlist.wishlist.dateexpiration,{'label': 'Expire le: *','attr':{  'class': 'form-control is-invalid'}}) }}
+        </div>
+      </div>
+      {% else %}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formWishlist.wishlist.dateexpiration,{'label': 'Expire le: *'} )}}
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+            {{ form_row(formWishlist.wishlist.description, {'label': 'Description: *', 'attr':{'placeholder': 'description'}}) }}
+        </div>
+      </div>
+      <div class="col-md-12 offset-md-8">
+        <br>
+        <button id="submitForm" class="btn btn-dark" >
+          {% if modifmode %}
+            Modifier la wishlist
+          {%else%}
+            Créer la wishlist
+          {%endif%}
+        </button>
+      </div>
+      {{form_end(formWishlist)}}
+    </div>
+  </div>
+{% endblock %}

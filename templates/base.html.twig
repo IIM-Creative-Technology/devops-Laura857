@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- template de base barre de navigation -->
+<html>
+    <head>
+        <meta charset="UTF-8">
+         <script src="https://kit.fontawesome.com/ebc72dbf59.js" crossorigin="anonymous"></script>
+        <title>{% block title %}We Wish{% endblock %}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+
+
+        {% block stylesheets %}
+         <link rel="stylesheet" href="{{ asset('main.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+<!-- le header -->
+<nav style= "margin-bottom: 50px"class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="recherche">
+    <form  class="form-inline my-2 my-lg-0" role="search" id="nav-search-form" method="post" action="{{ path('research') }}">
+      <input style="border-radius:30px" type="text" class="form-control" placeholder="Search" name ="search">
+      <span class="input-group-btn">
+        <button style="border-radius:50px" type="submit" class="btn btn-dark"><i class="fas fa-search"></i></button>
+      </span>
+    </form>
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <div class="titre">
+          <a href={{path('wishlist')}}>  <img src="/cadeau.png"  alt="..." ></a>
+          <a style= "text-decoration:none; color:orange" href={{path('wishlist')}}>WeWish</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <div class="icone">
+          <a href={{path('formWishlist')}}> <i  style="color:black" class="fas fa-plus-circle"></i></a>
+        </div>
+        {%if not app.user %}
+          <div class="connexion">
+            <a class="btn btn-dark" href={{path('connexion')}} role="button">Se connecter</a>
+          </div>
+          <div class="inscription">
+            <a class="btn btn-dark" href={{path('inscription')}} role="button">Inscription</a>
+          </div>
+        {% else %}
+          <div  class="autre_icone">
+            <a href={{path('deconnexion')}}> <i style="color:black" class="fas fa-power-off"></i></a>
+          </div>
+          <div  class="autre_icone">
+            <div  class="dropdown">
+              <a style="color:black" href="#" id= "myBtn"><i class="far fa-user"></i> </a>
+              <div  id="myDropdown" class="dropdown-content">
+                <a style="color:black" href={{path('modifier')}} ><i class="fas fa-user-circle">Modifier profil</i></a>
+                <a style="color:black" href={{path('profil')}}><i class="far fa-id-card">Mes infos personnelles</i></a>
+                <a style="color:black" href={{path('mywishlist')}}><i class="fas fa-list">Mes Wishlists</i></a>
+                <a style="color:black" href={{path('mdp')}}><i class="fas fa-unlock">Modifier mot de passe</i></a>
+              </div>
+            </div>
+          </div>
+          <div class="autre_icone">
+            <p style="font-family: AboutLove; font-size:40px">{{app.user.pseudo}}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  {% endif %}
+</nav>
+{% block body %}{% endblock %}
+<!-- fonction javascript qui créée un dropdown lorqu'on clique sur le profil/bonhomme -->
+{% block javascripts %}
+    <script type="text/javascript" src="./jquery.min.js"></script>
+    <script>
+      document.getElementById("myBtn").onclick = function() {myFunction()};
+      function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+     document.getElementById("submitForm").onclick = function() {myFunctionFormWshl()};
+     function myFunctionFormWshl() {
+      if(document.getElementById("forme_wishlist_theme_name").value && document.getElementById("forme_wishlist_name_name").value ){
+        return alert('Le thème pris en compte sera le non préparametré');
+  }else return  submit();
+     }
+    </script>
+{% endblock %}
+</body>
+<!--Bas de page-->
+<footer class="footer">
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{{path('propos')}}">A propos de nous</a>
+    <a class="navbar-brand" href="{{path('contact')}}">Nous contacter</a>
+    <a class="navbar-brand" href="{{path('faq')}}">FAQ</a>
+    <div class="facebook">
+      <a style="margin-right: 20px;" href ="https://fr-fr.facebook.com/" <i class="fab fa-facebook-square"></i>
+      <a href ="https://twitter.com/?lang=fr"><i  class="fab fa-twitter-square"></i></a>
+    </div>
+  </nav>
+ </footer>
+</html>

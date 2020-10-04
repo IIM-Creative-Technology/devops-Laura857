@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <head>
+      <link rel="stylesheet" href="/main.css" media="screen" type="text/css" />
+  </head>
+
+  <body class="theme" style="background-image: url('/images/{{theme.imageFond}}'); background-attachment: fixed">
+    <div class="header" id="description">
+      <div class="container">
+        {% for message in app.flashes('success') %}
+          <div class="alert alert-success">
+              {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+  	<h1>{{theme.name}}</h1>
+    <div class="grid-container">
+      {% for article in articles %}
+        <div style="display: inline-block;
+          width: 100%;
+          border: solid 2px black;
+          box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+          border-radius: 5px;">
+            <h3>{{article.nom}}</h3>
+            <a target"_blank" href={{article.url}}>
+               {% if (article.image starts with 'http') %}
+                 <img class='grid-item' src="{{article.image}}" alt="{{ article.nom }}"/>
+               {% elseif article.image == NULL %}
+                 <img class='grid-item' src="/images/article.png" alt="{{ article.nom }}"/>
+              {% else %}
+                  <img class='grid-item' src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.nom }}"/>
+              {% endif %}
+             </a>
+             <p>{{article.description | raw}}</p>
+             {% if article.prix != null %}
+         		  <p>{{article.prix }} €</p>
+             {% endif %}
+             {% if is_granted('ROLE_ADMIN') %}
+                <p><a href="{{path('formArticle_modif',{id: article.id})}}"><i class="fas fa-marker fa-1x" style="color:#000000;"></i></a>
+                 &nbsp
+                <a onclick="return confirm('Êtes-vous sûre de vouloir supprimer l\'article {{article.nom}}?')" href="{{path('deleteArticle',{id: article.id})}}"><i class= "fas fa-trash fa-1x" style="color:#000000;"></i></a></p>
+             {% endif %}
+          </div>
+       {% endfor %}
+     </div>
+     <div id="admin" class="text-center">
+         <h4>
+           <a href="{{path('formWishlistPrepara',{id: theme.id})}}" onclick="return confirm('Vous allez ajouter cette wishlist à vos wishlists en conservant tous les articles présents. Êtes-vous sûre de vouloir continuer ?')" class="btn btn-dark">Enregistrer cette wishlist</a>
+         </h4>
+     </div>
+     {% if is_granted('ROLE_ADMIN') %}
+       <div id="admin" class="text-center">
+          <h4>
+           <a href="{{path('formArticle',{idW: wishlist.id})}}" class="btn btn-dark">Ajouter un article</a>
+           </h4>
+       </div>
+     {% endif %}
+   </body>
+ {% endblock %}

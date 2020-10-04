@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+
+{% block body %}
+  <div class = "container">
+    <div class="offset-md-2">
+      <h1>Ajout d'un thème</h1>
+      <br>
+    </div>
+    <div class = "form_horizontal">
+      {{ form_start(form) }}
+        <div class="row justify-content-md-center">
+          <div class = "col-sm-8 control-label">
+            {{ form_row(form.name, {'label': 'Nom du thème *', 'attr':{'placeholder': 'nom', 'autofocus': 'true'}}) }}
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class = "col-sm-8 control-label">
+            {{ form_row(form.url_img, {'label': 'Logo *', 'attr':{'placeholder': 'url'}}) }}
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class = "col-sm-8 control-label">
+            {{ form_row(form.imageFile, {'label': 'Image de fond *', 'attr':{'placeholder': 'choisir un fichier'}}) }}
+          </div>
+        </div>
+        <div class="col-md-12 offset-md-8">
+          <br>
+          <button type="submit" class="btn btn-dark">Valider</button>
+        </div>
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+  <script>
+      $('.custom-file-input').on('change', function(event) {
+        var inputFile = event.currentTarget;
+        $(inputFile).parent()
+        .find('.custom-file-label')
+        .html(inputFile.files[0].name);
+     });
+  </script>
+{% endblock %}

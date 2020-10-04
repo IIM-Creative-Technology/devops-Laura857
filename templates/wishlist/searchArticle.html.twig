@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+
+  <link rel="stylesheet" href="{{ asset('main.css') }}">
+
+
+{% endblock %}
+
+{% block body %}
+
+
+
+
+  {% if articles is empty %}
+    <div class = "contenu">
+      <p>Aucun article ne correspond à votre recherche. Vous pouvez faire une recherche Cdiscount</p>
+    </div>
+  {% else %}
+
+    <div  class="card-deck">
+      {% for article in articles %}
+      <div style= "padding-bottom: 25px;" class="col-4 ">
+        <div  style="width: 300px;" class="card">
+          <h6 class="card-title">{{article.nom}}</h6>
+      <div style="width: 250px;">
+          <a href={{article.url}} target="_blank">
+            {% if article.image starts with 'http://' %}
+              <img class="card-img-top"  src="{{article.image}}"  alt="{{ article.nom }}"/>
+            {% elseif article.image == NULL %}
+              <img class="card-img-top"  src="/images/article.png" alt="{{ article.nom }}"/>
+            {% else %}
+              <img class="card-img-top"  src="{{vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.nom }}"/>
+            {% endif %}
+          </a>
+          </div>
+            {% if article.prix != null %}
+              <p >{{article.prix }} €</p>
+                {% endif %}
+              {%if app.user %}
+
+              <button onclick="getId" class="btn btn-primary" id="js-idA" data-toggle="modal" data-target="#message{{article.id}}">  Ajouter </button>
+            </div>
+
+          <div >
+
+            {% endif %}
+            <div id="message{{article.id}}" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <p style ="margin: 20px">Séléctionnez la wishlist où vous souhaitez ajouter l'article {{article.nom}} :</p>
+                  <div class="modal-body">
+                    {{ render(controller('App\\Controller\\SearchBarController::wishlistsChoices',{'id':article.id}))}}
+                  </div>
+                  <div class="modal-footer">
+                    {% if wishlists is not empty %}
+                      <a href="{{path('formWishlist',{'a':article.id})}}" class="btn btn-dark">Créer une autre wishlist</a>
+                    {% endif %}
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+                </div>
+              </div>
+              </div>
+              </div>
+      {% endfor %}
+
+    {% endif %}
+  </div>
+<div>
+  <div style="text-align:center; padding:30px">
+  <h2>Vous n'avez pas trouvez ce que vous souhaitez : faites une recherche Cdiscount</h2>
+  <form class="formalaire "target="_blank" action="{{path('discount')}}" method="post">
+    <input type="hidden" name="mode" value="blended">
+      <input type="hidden" name="mode" value="blended">
+      <input type="hidden" name="tag" value="insert associate tag">
+        <div class="container">
+          <div class="row justify-content-md-center">
+            <div class="col-sm-7">
+              <input  class="form-control" placeholder="faites une recherche Cdiscount" aria-label="Search" type="search" name="keyword" size="10" value="">
+            </div>
+            <div class="col-sm-1">
+              <button class="btn btn-dark" type="submit">Rechercher</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+	{% if app.user %}
+		<div class="container">
+			<div class="row justify-content-md-center">
+				{{ form_start(form) }}
+					<h1>Modifier votre mot de passe</h1>
+					{{ form_row(form.password.first, {'attr':{'placeholder': 'Nouveau mot de passe', 'autofocus': 'true', 'minlength':'6'}})}}
+					{{ form_row(form.password.second, {'attr':{'placeholder': 'Confirmation mot de passe', 'minlength':'6'}})}}
+			</div>
+			<div class="col-md-12 offset-md-8">
+				<br>
+				<button type="submit" class="btn btn-dark">Valider</button>
+				</div>
+			</div>
+			{{ form_end(form) }}
+	{% endif %}
+{% endblock %}

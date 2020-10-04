@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<form class="formulaire" action="{{ path('connexion')}}" method="post">
+    {% if error %}
+    <div class="alert alert-danger">Mail ou mot de passe incorrect.<br>Veuillez réessayer.</div>
+    {% endif %}
+    {% if app.user %}
+      <div class="mb-3">
+        Vous ête déjà connecté en tant que {{ app.user.pseudo }} <a href="{{ path('deconnexion') }}">Déconnexion</a>
+      </div>
+    {% else %}
+      <h1>Connexion</h1>
+      <input type="email" value="{{ last_username }}" name="email" placeholder="Entrer votre email" required autofocus>
+      <input type="password" name="password" placeholder="Entrer votre mot de passe" required>
+      <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
+      <input type="checkbox" id="remember_me" name="_remember_me"/>
+      <label for="remember_me">Remember me</label>
+      <br>
+      <center><a href="{{path('mdpOublie')}}">Mot de passe oublié</a></center>
+      <button type="submit" class="btn btn-dark btn-lg btn-block" style="margin-top:10px; margin-bottom:10px">
+        Connexion
+      </button>
+      <center><a href="{{path('inscription')}}">Pas de compte ? Inscrit toi !</a></center>
+    {% endif %}
+</form>
+{% endblock %}

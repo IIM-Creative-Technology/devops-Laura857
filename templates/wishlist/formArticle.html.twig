@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+{%form_theme formArticle 'bootstrap_4_layout.html.twig'%}
+
+
+{% block body %}
+
+<div class = "container">
+  <div class="offset-md-2">
+    <h1>{% if modifmode %} Modifier un article: {% else %}Ajout d'un article:{% endif %} </h1>
+    <br>
+  </div>
+  <div class = "form_horizontal">
+    {{ form_start(formArticle) }}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formArticle.nom, {'label': 'Nom *', 'attr':{'placeholder': 'nom de l\'article'}}) }}
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formArticle.prix, {'label': 'Prix', 'attr':{'placeholder': 'prix'}}) }}
+        </div>
+      </div>
+      {% if errorUrl %}
+      <div class="row justify-content-md-center">
+        <div class="col-sm-6 control-label"  >
+            <small id="emailHelp"   style="color:red;" >url invalide, veuillez entrer une adresse du type : http://exemple.fr</small>
+            {{ form_row(formArticle.url,{'label': 'Url du site * ','attr':{  'class': 'form-control is-invalid'}}) }}
+        </div>
+      </div>
+
+
+      {% else %}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {{ form_row(formArticle.url, {'label': 'Url du site * ', 'attr':{'placeholder': 'url du site'}}) }}
+        </div>
+      </div>
+      {% endif %}
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+          {% if article.image == NULL %}
+          {{ form_row(formArticle.imageFile, {'label': 'Image de l\'article', 'attr':{'placeholder': 'Choisir un fichier'}}) }}
+          {% else %}
+            {{ form_row(formArticle.imageFile, {'label': 'Image de fond', 'attr':{'placeholder': article.image}}) }}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <div class = "col-sm-6 control-label">
+            {{ form_row(formArticle.description, {'label': 'Description:', 'attr':{'placeholder': 'description'}}) }}
+        </div>
+      </div>
+      <div class="col-md-12 offset-md-8">
+        <br>
+        <button type="submit" class="btn btn-dark">
+          {% if modifmode %}
+            Modifier l'article
+          {% else %}
+            Ajouter l'article
+          {% endif %}
+        </button>
+      </div>
+    {{form_end(formArticle)}}
+  </div>
+</div>
+<script>
+    $('.custom-file-input').on('change', function(event) {
+      var inputFile = event.currentTarget;
+      $(inputFile).parent()
+      .find('.custom-file-label')
+      .html(inputFile.files[0].name);
+     });
+</script>
+{% endblock %}

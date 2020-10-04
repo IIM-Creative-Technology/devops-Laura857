@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div style="text-align: center;">
+  <div class="container">
+    {% for message in app.flashes('success') %}
+      <div class="alert alert-success">
+          {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+    <h1>Votre profil</h1>
+    <p><b>Nom :</b> {{ app.user.name }}</p>
+    <p><b>Prénom :</b> {{ app.user.prenom }}</p>
+    <p><b>Pseudo :</b> {{ app.user.pseudo }}</p>
+    <p><b>Email :</b> {{ app.user.email }}</p>
+    <a href="{{path('modifier')}}" class="btn btn-dark">modifier vos informations personnelles </a>
+    <form style="padding-top:30px;"action="{{ path('deleteUserAction')}}" method="post" onclick="return confirm('Êtes-vous sûre de vouloir supprimer définitivement votre compte ?');">
+      <button type="submit" class="btn btn-dark">supprimer son compte</button>
+    </form>
+ </div>
+{% endblock %}
