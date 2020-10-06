@@ -1,9 +1,4 @@
 *.psd
 *.pdf
-*.png
-*.css
-*.jpg
 *.ttf
 /test
-public/images
-public/wishlist
