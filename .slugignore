@@ -2,3 +2,5 @@
 *.pdf
 *.png
 /test
+public/images
+public/wishlist
