@@ -2,4 +2,4 @@
 *.pdf
 *.png
 /test
-/spec
+public
