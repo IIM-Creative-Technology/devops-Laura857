@@ -1,0 +1,22 @@
+name: CI on PullRequest
+
+on:
+  pull_request
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Init projet
+        uses: actions/checkout@v2
+
+      - name: PHP Linter
+        uses: michaelw90/PHP-Lint@master
+
+      - name: PHP Security Checker
+        uses: symfonycorp/security-checker-action@v2
+
+      - name: PHPUnit tests
+        uses: php-actions/phpunit@v9
+        with:
+          configuration: custom/path/to/phpunit.xml

@@ -39,15 +39,15 @@ class WishlistController extends AbstractController
 
     public function index()
     {
-        //$repo=$this->getDoctrine()->getRepository(Theme::class);
-        //$allThemes = $repo->findBy(array('isParametred' => true), array('name'=> 'ASC'));
+        $repo=$this->getDoctrine()->getRepository(Theme::class);
+        $allThemes = $repo->findBy(array('isParametred' => true), array('name'=> 'ASC'));
         $themes= [];
-        //foreach ($allThemes as $i) {
-         //   array_push($themes, $i);
-        //}
+        foreach ($allThemes as $i) {
+            array_push($themes, $i);
+        }
         return $this->render('wishlist/index.html.twig', [
            'controller_name' => 'WishlistController',
-           'themes'=> $themes
+           'themes'=>$themes
        ]);
     }
 
