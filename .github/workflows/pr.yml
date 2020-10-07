@@ -16,7 +16,5 @@ jobs:
       - name: PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
 
-      - name: PHPUnit tests
-        uses: php-actions/phpunit@v9
-        with:
-          configuration: tests/phpunit.xml
+      - name: PHPUnit
+        uses: chindit/actions-phpunit-symfony@master
