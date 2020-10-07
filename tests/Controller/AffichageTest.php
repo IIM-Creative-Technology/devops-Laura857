@@ -29,7 +29,6 @@ class SecurityControllerTest extends WebTestCase
         yield ['/inscription'];
         yield['/formWishlist'];
        
-
     }
 }
 

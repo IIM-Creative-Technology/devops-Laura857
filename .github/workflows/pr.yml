@@ -16,7 +16,10 @@ jobs:
       - name: PHP Security Checker
         uses: symfonycorp/security-checker-action@v2
 
-      - name: PHPUnit tests
+      - uses: php-actions/composer@v1 
+
+      - name: PHPUnit Tests
         uses: php-actions/phpunit@v9
         with:
-          configuration: custom/path/to/phpunit.xml
+          configuration: tests/phpunit.xml
+          args: --coverage-text
