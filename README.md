@@ -15,6 +15,11 @@ Ce projet présente un site web de gestion de wishlists, permettant à ses utili
 
 
 
+## Configuration
+
+Ajout du fichier ``Procfile`` à la racine du projet pour préciser à Heroku qu'il faut qu'il aille chercher le fichier index.php non pas à la racine, mais dans le dossier public
+
+
 ## CI/CD push
 
 Lors de push sur master et develop, une CI/CD est déclanchée
