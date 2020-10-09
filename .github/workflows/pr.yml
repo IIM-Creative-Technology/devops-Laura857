@@ -19,7 +19,4 @@ jobs:
       - uses: php-actions/composer@v1
 
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@v9
-        with:
-          configuration: tests/phpunit.xml
-          args: --coverage-text
+        uses: chindit/actions-phpunit-symfony@master
