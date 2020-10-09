@@ -20,5 +20,3 @@ jobs:
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v9
-        with:
-          configuration: tests/phpunit.xml
