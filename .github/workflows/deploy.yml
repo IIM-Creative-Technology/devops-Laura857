@@ -14,6 +14,18 @@ jobs:
       - name: PHP Linter
         uses: michaelw90/PHP-Lint@master
 
+      - name: PHP Security Checker
+        uses: symfonycorp/security-checker-action@v2
+
+      - name: Install Dependencies
+        uses: php-actions/composer@v1
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v9
+        with:
+          configuration: tests/phpunit.xml
+
+
       - name: Deploy prod to Heroku
         if: github.ref == 'refs/heads/master'
         uses: akhileshns/heroku-deploy@v3.5.6 

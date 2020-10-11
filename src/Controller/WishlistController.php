@@ -102,15 +102,16 @@ class WishlistController extends AbstractController
         }else if($wishlist->getTheme()->getIsParametred()==1){
           $theme=new Theme();
           $themeNp=new Theme();
-
           dump($theme);
 
         }else if($wishlist->getTheme()->getIsParametred()!=1){
           $themeNp=$wishlist->getTheme();
           $theme=new Theme();
         }
+        syslog(LOG_DEBUG, "before create form wishlist");
         $form = $this->createForm(FormeWishlistType::class, [ 'wishlist'=>$wishlist,'theme'=>$theme,'name'=>$themeNp]);
-dump($themeNp);
+        syslog(LOG_DEBUG, "create form wishlist");
+        dump($themeNp);
         $form->handleRequest($request);
         if ($wishlist->getDateexpiration() < new \DateTime()) {
             $modeD=false;
@@ -349,7 +350,7 @@ dump($themeNp);
         }
         return $this->render('wishlist/formArticle.html.twig', [
           'formArticle'=> $form->createView(),
-          'modifmode'=> $article->getId()!==null,
+          'modifmode'=> $article->getId()!=null,
           'article'=>$article,
           'errorUrl'=>$errorUrl,
         ]);
