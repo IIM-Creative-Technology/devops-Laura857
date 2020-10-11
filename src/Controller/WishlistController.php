@@ -349,7 +349,7 @@ dump($themeNp);
         }
         return $this->render('wishlist/formArticle.html.twig', [
           'formArticle'=> $form->createView(),
-          'modifmode'=> $article->getId()!==null,
+          'modifmode'=> $article->getId()!=null,
           'article'=>$article,
           'errorUrl'=>$errorUrl,
         ]);
