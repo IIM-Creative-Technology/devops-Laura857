@@ -28,7 +28,10 @@ Lors de push sur master et develop, une CI/CD est déclanchée
 
    - `actions/checkout@v2` : (Init) permet d'extraire notre repository pour que le workflow travaille dessus
    - `michaelw90/PHP-Lint@master` : (Linter) permet de vérifier qu'il n'y a aucune erreur de syntaxe dans le code php
-
+   - `symfonycorp/security-checker-action@v2` : (Checker) permet de vérifier qu'aucune vulnérabilité n'est présente dans le fichier composer.lock
+   - `php-actions/composer@v1` : permet d'executer la commande composer install pour avoir toutes les dépendances du projet
+   - `php-actions/phpunit@v9` : (Tests) permet d'executer les tests qui se trouvent dans le dossier tests
+   
 #### Continous Deployment on Heroku
 
    - `akhileshns/heroku-deploy@v3.5.6` : permet de déployer le site sur Heroku     
@@ -51,7 +54,7 @@ Lors de la création d'une pull request une CI est déclanchée
    - `michaelw90/PHP-Lint@master` : (Linter) permet de vérifier qu'il n'y a aucune erreur de syntaxe dans le code php
    - `symfonycorp/security-checker-action@v2` : (Checker) permet de vérifier qu'aucune vulnérabilité n'est présente dans le fichier composer.lock
    - `php-actions/composer@v1` : permet d'executer la commande composer install pour avoir toutes les dépendances du projet
-   - `php-actions/phpunit@v9` : (Tests) permet d'executer les tests qui se trouvent dans le dossier tests/phpunit.xml
+   - `php-actions/phpunit@v9` : (Tests) permet d'executer les tests qui se trouvent dans le dossier tests
    
    
    
