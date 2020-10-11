@@ -20,4 +20,3 @@ jobs:
         uses: php-actions/phpunit@v9
         with:
           configuration: tests/phpunit.xml
-          args: --coverage-text
